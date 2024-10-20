@@ -79,12 +79,13 @@ class AdminController extends Controller
 
     public function upload_product(Request $request)
     {
+        // Validate the request
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:5|max:200',
             'description' => 'required',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
-            'category' => 'required',
+            'category' => 'required|exists:categories,id', // Ensure the category exists in the 'categories' table
             'image' => 'required|image|mimes:jpeg,png,jpg|max:9048', // 9MB Max
         ]);
 
@@ -103,63 +104,51 @@ class AdminController extends Controller
         $data->description = $request->input('description');
         $data->price = $request->input('price');
         $data->quantity = $request->input('quantity');
-        $data->category = $request->input('category');
+        $data->category_id = $request->input('category'); // Use 'category_id' instead of 'category_name'
+
+        // Handle image upload
         $image = $request->image;
-        //if request has image
         if ($image) {
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $request->image->move('products', $imageName);
             $data->image = $imageName;
         }
+
         // Save the product to the database
         $data->save();
 
-        // Redirect with Toastr success message
-        flash()->success('Category Added sucessfully.');
+        // Redirect with success message
+        flash()->success('Product added successfully.');
         return redirect()->back();
     }
 
     public function view_product()
     {
-        // Retrieve all products
-        $product = Product::all();
-
-
-        // Check if there are any products in the collection
-        if ($product->isEmpty()) {
-            flash()->error('There are currently no products.');
-            return redirect()->back();
-        }
-
-        // Filter out the products that are not marked as deleted
-        $activeProducts = $product->where('is_delete', 0);
+        // Retrieve only active products (not marked as deleted) and paginate them
+        $activeProducts = Product::orderBy('created_at', 'DESC')->where('is_delete', 0)->paginate(4);
 
         // Check if there are any active products
         if ($activeProducts->isEmpty()) {
-            flash()->error('All products are deleted.');
+            flash()->error('There are currently no active products.');
             return redirect()->back();
         }
-
-        // Return the view with active products
-
-
 
         return view('admin.products.list', compact('activeProducts'));
     }
 
 
-
     public function edit_product(Request $request, $id)
     {
-        $product = Product::find($id);
-        $categories = Category::all();
+        $product = Product::with('category')->find($id); // Eager load the category
 
         if (!$product) {
-            flash()->error('product not found.');
+            flash()->error('Product not found.');
             return redirect()->back();
-        } else {
-            return view('admin.products.edit', compact('product', 'categories'));
         }
+
+        $categories = Category::all(); // Get all categories for the dropdown
+
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function update_product(Request $request, $id)
@@ -216,6 +205,12 @@ class AdminController extends Controller
     {
         $product = Product::find($id);
 
+        //for deleting image in public folder
+        $image_path = public_path('products/' . $product->image);
+
+        if (file_exists($image_path)) {
+            unlink($image_path);
+        }
         if (!$product) {
             flash()->error('Product not found.');
             return redirect()->back();
@@ -226,5 +221,25 @@ class AdminController extends Controller
 
         flash()->success('Product deleted successfully!');
         return redirect()->back();
+    }
+
+
+    public function product_search(Request $request)
+    {
+        $search = $request->input('search'); // Get the search term
+
+        // Filter active products based on search term (title and category)
+        $activeProducts = Product::where('is_delete', 0)
+            ->where(function ($query) use ($search) {
+                // Searching only in title and category
+                $query->where('title', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('category', function ($query) use ($search) {
+                        $query->where('category_name', 'LIKE', '%' . $search . '%'); // Adjust 'name' if your category column is named differently
+                    });
+            })
+            ->orderBy('created_at', 'DESC')
+            ->paginate(4);
+
+        return view('admin.products.list', compact('activeProducts', 'search'));
     }
 }
