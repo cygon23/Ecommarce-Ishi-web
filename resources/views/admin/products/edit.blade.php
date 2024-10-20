@@ -75,16 +75,17 @@
 
                         <div class="form-group">
                             <label for="category">Product Category</label>
-                            <select name="category" class="form-control" required>
+                            <select name="category_id" class="form-control" required>
                                 <option disabled>Select Category</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
-                                        {{ $category->id == $product->category ? 'selected' : '' }}>
+                                        {{ $category->id == $product->category_id ? 'selected' : '' }}>
                                         {{ $category->category_name }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
+
 
                         <div class="form-group">
                             <label for="image">Product Image</label>
