@@ -28,6 +28,17 @@
         .btn-success {
             font-size: 18px;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: right;
+            align-items: right;
+            margin-top: 20px;
+        }
+
+        td {
+            color: white;
+        }
     </style>
 
 </head>
@@ -45,6 +56,11 @@
         </div>
 
         <div class="container">
+            @if (request('search'))
+                <a href="{{ url('product_search') }}" class="reset-btn" aria-label="View all products">
+                    <i class="fa fa-arrow-left"></i> Back
+                </a>
+            @endif
             <h2>All Products</h2>
 
             <table class="table table-striped">
@@ -85,6 +101,11 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="paginaton">
+                {{ $activeProducts->onEachSide(1)->links() }}
+            </div>
+
+
         </div>
     </div>
 
