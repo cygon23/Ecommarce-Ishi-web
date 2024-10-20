@@ -1,9 +1,9 @@
 <header class="header_section">
     <nav class="navbar navbar-expand-lg custom_nav-container ">
         <a class="navbar-brand" href="index.html">
-            <span>
+            {{-- <span>
                 Giftos
-            </span>
+            </span> --}}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,9 +49,11 @@
 
                 @auth
 
-                    <a href="">
+                    <a href="{{ url('mycart') }}" class="nav-link">
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        <span class="badge bg-primary">{{ $count ?? 1 }}</span>
                     </a>
+
                     <form class="form-inline ">
                         <button class="btn nav_search-btn" type="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>

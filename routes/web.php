@@ -9,6 +9,8 @@ Route::get('/', [HomeController::class, 'home']);
 Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware('auth');
 Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin']);
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
+Route::get('add_cart/{id}', [HomeController::class, 'add_cart'])->middleware(['auth', 'verified']);
+Route::get('mycart', [HomeController::class, 'mycart']);
 
 
 
