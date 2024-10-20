@@ -35,27 +35,38 @@
                 </li>
             </ul>
             <div class="user_option">
-                <a href="{{ url('/login') }}">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span>
-                        Login
-                    </span>
-                </a>
+                @guest
+                    <a href="{{ route('login') }}">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span>Login</span>
+                    </a>
 
-                <a href="{{ url('/register') }}">
-                    <i class="fa fa-vcard" aria-hidden="true"></i>
-                    <span>
-                        Register
-                    </span>
-                </a>
-                <a href="">
-                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                </a>
-                <form class="form-inline ">
-                    <button class="btn nav_search-btn" type="submit">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </button>
-                </form>
+                    <a href="{{ route('register') }}">
+                        <i class="fa fa-vcard" aria-hidden="true"></i>
+                        <span>Register</span>
+                    </a>
+                @endguest
+
+                @auth
+
+                    <a href="">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </a>
+                    <form class="form-inline ">
+                        <button class="btn nav_search-btn" type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+
+                    <form style="padding: 15px" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class="btn btn-success" type="submit">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+                @endauth
+
             </div>
         </div>
     </nav>
