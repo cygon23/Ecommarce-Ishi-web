@@ -3,14 +3,18 @@
         <div class="search-panel">
             <div class="search-inner d-flex align-items-center justify-content-center">
                 <div class="close-btn">Close <i class="fa fa-close"></i></div>
-                <form id="searchForm" action="#">
+                <form id="searchForm" action="{{ url('product_search') }}" method="GET">
+                    @csrf
                     <div class="form-group">
-                        <input type="search" name="search" placeholder="What are you searching for...">
+                        <input type="search" name="search" placeholder="What are you searching for..."
+                            value="{{ request('search') }}">
                         <button type="submit" class="submit">Search</button>
+                        <a href="{{ url('product_search') }}" class="reset-btn">Reset</a>
                     </div>
                 </form>
             </div>
         </div>
+
         <div class="container-fluid d-flex align-items-center justify-content-between">
             <div class="navbar-header">
                 <!-- Navbar Header--><a href="index.html" class="navbar-brand">
