@@ -50,7 +50,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
+
                         <th>Title</th>
                         <th>Description</th>
                         <th>Price $</th>
@@ -63,12 +63,11 @@
                 <tbody>
                     @foreach ($activeProducts as $product)
                         <tr>
-                            <td>{{ $product->id }}</td>
                             <td>{{ $product->title }}</td>
-                            <td>{{ Str::limit($product->description, 50) }}</td> <!-- Limit the description length -->
+                            <td>{{ Str::limit($product->description, 100) }}</td> <!-- Limit the description length -->
                             <td>{{ $product->price }}</td>
                             <td>{{ $product->quantity }}</td>
-                            <td>{{ $product->category }}</td>
+                            <td>{{ $product->category ? $product->category->category_name : 'No Category' }}</td>
                             <td>
                                 @if ($product->image)
                                     <img src="{{ asset('products/' . $product->image) }}" alt="Product Image"
@@ -99,12 +98,10 @@
 
     <script>
         function confirmation(ev) {
-            ev.preventDefault(); // Prevent the default action (e.g., link click)
+            ev.preventDefault();
 
-            // Get the URL to redirect to (in this case, the delete route)
             var urlToRedirect = ev.currentTarget.getAttribute('href');
 
-            // Show the SweetAlert confirmation dialog
             swal({
                     title: "Are you sure you want to delete?",
                     text: "This will move the item to the trash.",
@@ -113,9 +110,8 @@
                     dangerMode: true,
                 })
                 .then((willDelete) => {
-                    // If the user confirms the action
                     if (willDelete) {
-                        // Redirect to the deletion URL
+
                         window.location.href = urlToRedirect;
                     } else {
                         // If the user cancels, do nothing

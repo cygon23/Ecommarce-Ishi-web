@@ -124,6 +124,7 @@ class AdminController extends Controller
         // Retrieve all products
         $product = Product::all();
 
+
         // Check if there are any products in the collection
         if ($product->isEmpty()) {
             flash()->error('There are currently no products.');
@@ -140,6 +141,9 @@ class AdminController extends Controller
         }
 
         // Return the view with active products
+
+
+
         return view('admin.products.list', compact('activeProducts'));
     }
 
@@ -182,7 +186,7 @@ class AdminController extends Controller
         $product->description = $request->input('description');
         $product->price = $request->input('price');
         $product->quantity = $request->input('quantity');
-        $product->category = $request->input('category');
+        $product->category_id = $request->input('category');
 
 
         // If a new image is uploaded, handle the file upload
