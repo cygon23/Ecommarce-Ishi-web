@@ -151,54 +151,74 @@ class AdminController extends Controller
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
+    // public function update_product(Request $request, $id)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'title' => 'required|min:5|max:200',
+    //         'description' => 'required',
+    //         'price' => 'required|numeric',
+    //         'quantity' => 'required|numeric',
+    //         'category' => 'required',
+    //         'image' => 'image|mimes:jpeg,png,jpg|max:9048', // 9MB Max
+    //     ]);
+
+
+    //     // Check for validation failures
+    //     if ($validator->fails()) {
+    //         return redirect()->back()
+    //             ->withErrors($validator)
+    //             ->withInput(); // Redirect back with input and error messages
+    //     }
+
+    //     $product = Product::find($id);
+    //     $product->title = $request->input('title');
+    //     $product->description = $request->input('description');
+    //     $product->price = $request->input('price');
+    //     $product->quantity = $request->input('quantity');
+    //     $product->category_id = $request->input('category');
+
+
+    //     // If a new image is uploaded, handle the file upload
+    //     if ($request->hasFile('image')) {
+    //         // Delete the old image if it exists
+    //         if ($product->image) {
+    //             $oldImagePath = public_path('products/' . $product->image);
+    //             if (file_exists($oldImagePath)) {
+    //                 unlink($oldImagePath);
+    //             }
+    //         }
+
+    //         // Upload the new image
+    //         $image = $request->file('image');
+    //         $imageName = time() . '.' . $image->getClientOriginalExtension();
+    //         $image->move(public_path('products'), $imageName);
+    //         $product->image = $imageName;
+    //     }
+
+    //     // Save the updated product
+    //     $product->save();
+    //     flash()->success('Category Updated sucessfully.');
+    //     return redirect('/view_product');
+    // }
     public function update_product(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|min:5|max:200',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'quantity' => 'required|numeric',
-            'category' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg|max:9048', // 9MB Max
-        ]);
+        $data = Product::find($id);
+        $data->title = $request->title;
+        $data->description = $request->description;
+        $data->price = $request->price;
+        $data->quantity = $request->quantity;
+        $data->category_id = $request->category_id;
 
-
-        // Check for validation failures
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput(); // Redirect back with input and error messages
-        }
-
-        $product = Product::find($id);
-        $product->title = $request->input('title');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
-        $product->quantity = $request->input('quantity');
-        $product->category_id = $request->input('category');
-
-
-        // If a new image is uploaded, handle the file upload
-        if ($request->hasFile('image')) {
-            // Delete the old image if it exists
-            if ($product->image) {
-                $oldImagePath = public_path('products/' . $product->image);
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
-                }
-            }
-
-            // Upload the new image
-            $image = $request->file('image');
+        $image = $request->image;
+        if ($image) {
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('products'), $imageName);
-            $product->image = $imageName;
+            $request->image->move('products', $imageName);
+            $data->image = $imageName;
         }
 
-        // Save the updated product
-        $product->save();
+        $data->save();
         flash()->success('Category Updated sucessfully.');
-        return redirect('/view_product');
+        return redirect(url('view_product'));
     }
 
     public function delete_product($id)
