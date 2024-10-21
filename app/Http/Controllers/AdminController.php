@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Flasher\Prime\FlasherInterface;
@@ -261,5 +262,12 @@ class AdminController extends Controller
             ->paginate(4);
 
         return view('admin.products.list', compact('activeProducts', 'search'));
+    }
+
+
+    public function view_orders()
+    {
+        $datas = Order::orderBy('updated_at', 'DESC')->paginate(3);
+        return view('admin.oders.list', compact('datas'));
     }
 }
