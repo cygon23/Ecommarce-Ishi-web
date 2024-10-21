@@ -14,13 +14,16 @@
         <li><a href="{{ url('view_categoty') }}"> <i class="icon-list"></i>Category </a></li>
         {{-- <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>
         <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li> --}}
-        <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
-                    class="icon-windows"></i>Products </a>
+        <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-box"></i>
+                Products </a>
             <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                 <li><a href="{{ url('add_products') }}">Add Products</a></li>
                 <li><a href="{{ url('view_product') }}">View Product</a></li>
-                <li><a href="#">Page</a></li>
+
             </ul>
         </li>
+
+        <li><a href="{{ url('view_orders') }}"><i class="fas fa-receipt"></i> Orders</a></li>
+
 
 </nav>
