@@ -11,7 +11,7 @@ Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['au
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('add_cart/{id}', [HomeController::class, 'add_cart'])->middleware(['auth', 'verified']);
 Route::get('mycart', [HomeController::class, 'mycart']);
-
+Route::post('comfirm_order', [HomeController::class, 'comfirm_order'])->middleware('auth');
 
 
 Route::middleware('auth')->group(function () {
