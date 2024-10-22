@@ -5,15 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Stripe;
+use Session;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $user = User::where('user_type', 'user')->get()->count();
+        $product = Product::all()->count();
+        $order = Order::all()->count();
+
+        $delivered = Order::where('status', 'delivered')->get()->count();
+        return view('admin.index', compact('user', 'product', 'order', 'delivered'));
     }
 
     public function home()
@@ -132,5 +140,72 @@ class HomeController extends Controller
 
         // flash()->success('Order Placed Sucessfully');
         return redirect()->back();
+    }
+
+    public function myOrders()
+    {
+        $user = Auth::user()->id;
+        $count = Cart::where('user_id', $user)->get()->count();
+        $orders = Order::where('user_id', $user)->get();
+        return view('home.products.orders', compact('count', 'orders'));
+    }
+
+    public function stripe($value)
+    {
+        return view('home.payment.stripe', compact('value'));
+    }
+
+    public function stripePost(Request $request, $value)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe\Charge::create([
+            "amount" => $value * 100,
+            "currency" => "usd",
+            "source" => $request->stripeToken,
+            "description" => "Test payment complete."
+        ]);
+
+        // flash('success', 'Payment successful!');
+        // return back();
+
+
+        //data from cart form
+        $name = Auth::user()->name;
+        $phone = Auth::user()->phone;
+        $address = Auth::user()->address;
+
+        //getting auth user ID
+        $userId = Auth::user()->id;
+        $cart = Cart::where('user_id', $userId)->get();
+
+        //for multiple data insert in the orders table
+        foreach ($cart as $carts) {
+            $order = new Order;
+            $order->name = $name;
+            $order->rec_address = $address;
+            $order->phone = $phone;
+            $order->user_id = $userId;
+            $order->product_id = $carts->product_id;
+            $order->payment_status = "paid";
+            $order->save();
+        }
+
+        // remove the products after placement in the order table
+
+        $product_remove = Cart::where('user_id', $userId)->get();
+
+        //if there is mutple produts
+
+        foreach ($product_remove as $remove) {
+            $data = Cart::find($remove->id);
+            $data->delete();
+
+            // $remove->status = 1;  // Assuming status 1 means 'processed'
+            // $remove->save();
+        }
+        flash('payment processed succefully', true);
+
+        // flash()->success('Order Placed Sucessfully');
+        return redirect('mycart');
     }
 }
