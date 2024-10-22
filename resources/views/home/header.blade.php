@@ -54,6 +54,14 @@
                         <span class="badge bg-primary">{{ $count ?? 1 }}</span>
                     </a>
 
+                    <a href="{{ url('myOrders') }}" class="nav-link ">
+                        <i class="fa fa-box fa-lg" aria-hidden="true"></i>
+                        <span class="badge bg-danger">
+                            orders
+                        </span>
+                    </a>
+
+
                     <form class="form-inline ">
                         <button class="btn nav_search-btn" type="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -63,7 +71,7 @@
                     <form style="padding: 15px" action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="btn btn-success" type="submit">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
                             <span>Logout</span>
                         </button>
                     </form>
