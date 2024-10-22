@@ -8,7 +8,9 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.0",
         "laravel/framework": "^11.9",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
+        "laravel/ui": "^4.5",
         "php-flasher/flasher-toastr-laravel": "^2.0",
         "stripe/stripe-php": "^16.1",
         "yoeunes/toastr": "^3.0"
