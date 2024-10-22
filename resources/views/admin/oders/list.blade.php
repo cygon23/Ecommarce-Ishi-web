@@ -62,6 +62,8 @@
                     <th>Price</th>
                     <th>Image</th>
                     <th>Status</th>
+                    <th>Update Status</th>
+                    <th>Product Statement</th>
                 </tr>
                 @foreach ($datas as $data)
                     <tr>
@@ -78,9 +80,43 @@
                                 No Image
                             @endif
                         </td>
-                        <td>{{ $data->status }}</td>
+                        <td>
+                            @switch($data->status)
+                                @case('progress')
+                                    <span class="text-warning"><i class="fas fa-times-circle"></i> on progress</span>
+                                @break
+
+                                @case('On The way')
+                                    <span class="text-success"><i class="fas fa-truck"></i> processed</span>
+                                @break
+
+                                @case('delivered')
+                                    <span class="text-secondary"><i class="fas fa-clock"></i> Delivered</span>
+                                @break
+
+                                @default
+                                    <span class="text-danger">Unknown status</span>
+                            @endswitch
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Update Status">
+                                <a href="{{ url('product_transfer', $data->id) }}" class="btn btn-warning"
+                                    title="On the Way">
+                                    <i class="fas fa-truck"></i> On the Way
+                                </a>
+                                <a href="{{ url('product_delivered', $data->id) }}" class="btn btn-success"
+                                    title="Delivered">
+                                    <i class="fas fa-check-circle"></i> Delivered
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{{ url('product_statement', $data->id) }}"> <i class="fas fa-file-pdf"></i> Download
+                                PDF</a>
+                        </td>
                     </tr>
                 @endforeach
+
 
 
             </table>

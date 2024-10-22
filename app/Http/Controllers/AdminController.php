@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Flasher\Prime\FlasherInterface;
 use Illuminate\Support\Facades\Validator;
@@ -267,7 +268,35 @@ class AdminController extends Controller
 
     public function view_orders()
     {
-        $datas = Order::orderBy('updated_at', 'DESC')->paginate(3);
+        $datas = Order::orderBy('updated_at', 'DESC')->paginate(4);
         return view('admin.oders.list', compact('datas'));
+    }
+
+    public function product_transfer($id)
+    {
+        $data = Order::find($id);
+        $data->status = 'On The way';
+        $data->save();
+        flash()->info('Tranfering the product initiated.');
+        return redirect()->back();
+    }
+
+    public function product_delivered($id)
+    {
+        $data = Order::find($id);
+        $data->status = 'delivered';
+        $data->save();
+
+        flash()->success('Product Devivered Successfully');
+        return redirect()->back();
+    }
+
+    public function product_statement($id)
+    {
+        $data = Order::find($id);
+
+        $pdf = Pdf::loadView('admin.oders.invoice', compact('data'));
+
+        return $pdf->download('invoice.pdf');
     }
 }
