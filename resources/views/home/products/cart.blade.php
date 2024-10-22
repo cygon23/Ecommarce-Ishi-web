@@ -80,30 +80,29 @@
                     <div class="total_price">
                         <h3>Total Value of Cart: ${{ $value }}</h3>
                     </div>
-                </div>
-
-                <!-- Right Column: Shipping Form -->
-                <div class="col-md-4 shipping-form">
-                    <h4 class="mb-3">Shipping Details</h4>
-                    <form action="{{ url('comfirm_order') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Receiver Name</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                value="{{ Auth::user()->name }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="address" name="address"
-                                value="{{ Auth::user()->address }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" name="phone"
-                                value="{{ Auth::user()->phone }}" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Place Order</button>
-                    </form>
+                    <div class="col-md-4 shipping-form">
+                        <h4 class="mb-3">Shipping Details</h4>
+                        <form action="{{ url('comfirm_order') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Receiver Name</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ Auth::user()->name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address"
+                                    value="{{ Auth::user()->address }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    value="{{ Auth::user()->phone }}" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Cash on Delivered</button>
+                            <a class="btn btn-success" href="{{ url('stripe', $value) }}">Card payment</a>
+                        </form>
+                    </div>
                 </div>
             @endif
         </div>
