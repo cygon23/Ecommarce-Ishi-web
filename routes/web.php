@@ -12,6 +12,9 @@ Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('add_cart/{id}', [HomeController::class, 'add_cart'])->middleware(['auth', 'verified']);
 Route::get('mycart', [HomeController::class, 'mycart']);
 Route::post('comfirm_order', [HomeController::class, 'comfirm_order'])->middleware('auth');
+Route::get('myOrders', [HomeController::class, 'myOrders'])->middleware('auth');
+
+
 
 
 Route::middleware('auth')->group(function () {
@@ -40,3 +43,12 @@ Route::get('view_orders', [AdminController::class, 'view_orders'])->middleware([
 Route::get('product_transfer/{id}', [AdminController::class, 'product_transfer'])->middleware(['auth', 'admin']);
 Route::get('product_delivered/{id}', [AdminController::class, 'product_delivered'])->middleware(['auth', 'admin']);
 Route::get('product_statement/{id}', [AdminController::class, 'product_statement'])->middleware(['auth', 'admin']);
+
+
+//payment
+Route::controller(HomeController::class)->group(function () {
+
+    Route::get('stripe/{value}', 'stripe');
+
+    Route::post('stripe/{value}', 'stripePost')->name('stripe.post');
+});
