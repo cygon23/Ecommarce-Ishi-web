@@ -3,7 +3,14 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TwitterController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 Route::get('/', [HomeController::class, 'home']);
 Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware('auth');
@@ -51,4 +58,35 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('stripe/{value}', 'stripe');
 
     Route::post('stripe/{value}', 'stripePost')->name('stripe.post');
+});
+
+
+Route::controller(TwitterController::class)->group(function () {
+    Route::get('auth/twitter', 'redirectToTwitter')->name('auth.twitter');
+    Route::get('auth/twitter/callback', 'handleTwitterCallback');
+});
+
+
+
+Route::get('/auth/google/redirect', function (Request $request) {
+    return Socialite::driver("google")->redirect();
+});
+
+
+Route::get('/auth/google/callback', function (Request $request) {
+    $googleUser = Socialite::driver("google")->user();
+
+    $user = User::updateOrCreate(
+        ['google_id' => $googleUser->id],
+        [
+            'name' => $googleUser->name,
+            'email' => $googleUser->email,
+            'password' => Hash::make(Str::random(12)),
+            'email_verified_at' => now(),
+            'address' => $googleUser->address ?? 'Arusha' // default address here
+        ]
+    );
+
+    Auth::login($user);
+    return redirect('/dashboard');
 });
