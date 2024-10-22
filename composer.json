@@ -10,6 +10,7 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "php-flasher/flasher-toastr-laravel": "^2.0",
+        "stripe/stripe-php": "^16.1",
         "yoeunes/toastr": "^3.0"
     },
     "require-dev": {
