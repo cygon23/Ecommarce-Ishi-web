@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg custom_nav-container ">
         <a class="navbar-brand" href="index.html">
             <span>
-                Giftos
+                Ishi-Tech
             </span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -16,22 +16,22 @@
                     <a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="shop.html">
+                    <a class="nav-link" href="{{ url('shop-home') }}">
                         Shop
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="why.html">
+                    <a class="nav-link" href="{{ url('why-home') }}">
                         Why Us
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="testimonial.html">
+                    <a class="nav-link" href="{{ url('testmonial-home') }}">
                         Testimonial
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
+                    <a class="nav-link" href="{{ url('contact-home') }}">Contact Us</a>
                 </li>
             </ul>
             <div class="user_option">
