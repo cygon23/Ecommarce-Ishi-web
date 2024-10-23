@@ -2,7 +2,7 @@
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
-                Latest Products
+                {{ __('messages.product-h1') }}
             </h2>
         </div>
         <div class="row">
@@ -18,7 +18,7 @@
                                 {{ $product->title }}
                             </h6>
                             <h6>
-                                Price
+                                {{ __('messages.product-price') }}
                                 <span>
                                     {{ $product->price }}
                                 </span>
@@ -30,9 +30,11 @@
                             </span>
                         </div> --}}
                         <div style="padding: 10px">
-                            <a class="btn btn-danger" href="{{ url('product_details', $product->id) }}">Details</a>
+                            <a class="btn btn-danger"
+                                href="{{ url('product_details', $product->id) }}">{{ __('messages.product-details') }}</a>
 
-                            <a class="btn btn-success" href="{{ url('add_cart', $product->id) }}">Add to Cart</a>
+                            <a class="btn btn-success"
+                                href="{{ url('add_cart', $product->id) }}">{{ __('messages.product-cart') }}</a>
                         </div>
                     </div>
                 </div>
@@ -42,7 +44,7 @@
         </div>
         <div class="btn-box">
             <a href="">
-                View All Products
+                {{ __('messages.product-all') }}
             </a>
         </div>
     </div>

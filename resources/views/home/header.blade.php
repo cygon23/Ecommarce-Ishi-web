@@ -13,37 +13,38 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  ">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url('/') }}">{{ __('messages.home') }} <span
+                            class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('shop-home') }}">
-                        Shop
+                        {{ __('messages.shop') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('why-home') }}">
-                        Why Us
+                        {{ __('messages.about') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('testmonial-home') }}">
-                        Testimonial
+                        {{ __('messages.tesmonial') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('contact-home') }}">Contact Us</a>
+                    <a class="nav-link" href="{{ url('contact-home') }}">{{ __('messages.contact-us') }}</a>
                 </li>
             </ul>
             <div class="user_option">
                 @guest
                     <a href="{{ route('login') }}">
                         <i class="fa fa-user" aria-hidden="true"></i>
-                        <span>Login</span>
+                        <span>{{ __('messages.login') }}</span>
                     </a>
 
                     <a href="{{ route('register') }}">
                         <i class="fa fa-vcard" aria-hidden="true"></i>
-                        <span>Register</span>
+                        <span>{{ __('messages.register') }}</span>
                     </a>
                 @endguest
 
@@ -57,22 +58,42 @@
                     <a href="{{ url('myOrders') }}" class="nav-link ">
                         <i class="fa fa-box fa-lg" aria-hidden="true"></i>
                         <span class="badge bg-danger">
-                            orders
+                            {{ __('messages.orders') }}
                         </span>
                     </a>
 
 
-                    <form class="form-inline ">
-                        <button class="btn nav_search-btn" type="submit">
+                    <form class="form-inline d-flex align-items-center">
+                        <!-- Language Dropdown -->
+                        <div class="dropdown me-2">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">Select language
+                                {{-- {{ __('messages.select_language') }} --}}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                                <li><a class="dropdown-item"
+                                        href="{{ route('change.lang', ['lang' => 'en']) }}">English</a></li>
+                                <li><a class="dropdown-item"
+                                        href="{{ route('change.lang', ['lang' => 'sw']) }}">Swahili</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Search Form -->
+                        <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
                     </form>
+
+
+
+
+
 
                     <form style="padding: 15px" action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="btn btn-success" type="submit">
                             <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                            <span>Logout</span>
+                            <span>{{ __('messages.logout') }}</span>
                         </button>
                     </form>
                 @endauth
