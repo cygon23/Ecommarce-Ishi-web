@@ -27,7 +27,16 @@ class HomeController extends Controller
     public function home()
     {
         $products = Product::all();
-        return view('home.index', compact('products'));
+
+        //prevent getting null id on product view
+        if (Auth::id()) {
+            $user = Auth::user();
+            $userId = $user->id;
+            $count = Cart::where('user_id', $userId)->count();
+        } else {
+            $count = '';
+        }
+        return view('home.index', compact('products', 'count'));
     }
 
     public function login_home()
@@ -205,7 +214,58 @@ class HomeController extends Controller
         }
         flash('payment processed succefully', true);
 
-        // flash()->success('Order Placed Sucessfully');
         return redirect('mycart');
+    }
+
+
+    public function shop()
+    {
+        $products = Product::all();
+        if (Auth::id()) {
+            $user = Auth::user();
+            $userId = $user->id;
+            $count = Cart::where('user_id', $userId)->count();
+        } else {
+            $count = '';
+        }
+        return view('home.homeURL.shop', compact('products', 'count'));
+    }
+
+
+    public function whyPage()
+    {
+        if (Auth::id()) {
+            $user = Auth::user();
+            $userId = $user->id;
+            $count = Cart::where('user_id', $userId)->count();
+        } else {
+            $count = '';
+        }
+        return view('home.homeURL.why', compact('count'));
+    }
+
+
+    public function testmonial()
+    {
+        if (Auth::id()) {
+            $user = Auth::user();
+            $userId = $user->id;
+            $count = Cart::where('user_id', $userId)->count();
+        } else {
+            $count = '';
+        }
+        return view('home.homeURL.testmonial', compact('count'));
+    }
+
+    public function contact()
+    {
+        if (Auth::id()) {
+            $user = Auth::user();
+            $userId = $user->id;
+            $count = Cart::where('user_id', $userId)->count();
+        } else {
+            $count = '';
+        }
+        return view('home.homeURL.contact', compact('count'));
     }
 }
