@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GoogleChartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TwitterController;
@@ -18,8 +19,12 @@ Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['au
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('add_cart/{id}', [HomeController::class, 'add_cart'])->middleware(['auth', 'verified']);
 Route::get('mycart', [HomeController::class, 'mycart']);
-Route::post('comfirm_order', [HomeController::class, 'comfirm_order'])->middleware('auth');
-Route::get('myOrders', [HomeController::class, 'myOrders'])->middleware('auth');
+Route::post('comfirm_order', [HomeController::class, 'comfirm_order'])->middleware(['auth', 'verified']);
+Route::get('myOrders', [HomeController::class, 'myOrders'])->middleware(['auth', 'verified']);
+Route::get('shop-home', [HomeController::class, 'shop']);
+Route::get('why-home', [HomeController::class, 'whyPage']);
+Route::get('testmonial-home', [HomeController::class, 'testmonial']);
+Route::get('contact-home', [HomeController::class, 'contact']);
 
 
 
@@ -90,3 +95,6 @@ Route::get('/auth/google/callback', function (Request $request) {
     Auth::login($user);
     return redirect('/dashboard');
 });
+
+
+Route::get('chart', [GoogleChartController::class, 'index']);
