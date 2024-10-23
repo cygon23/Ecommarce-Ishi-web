@@ -25,5 +25,5 @@
 
         <li><a href="{{ url('view_orders') }}"><i class="fas fa-receipt"></i> Orders</a></li>
 
-
+        <li><a href="{{ url('chart') }}"> <i class="fa fa-bar-chart"></i>Charts </a></li>
 </nav>
