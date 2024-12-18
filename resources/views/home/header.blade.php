@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg custom_nav-container ">
         <a class="navbar-brand" href="index.html">
             <span>
-                Ishi-Tech
+                OMS-SYSTEM
             </span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
