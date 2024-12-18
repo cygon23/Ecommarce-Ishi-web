@@ -99,7 +99,4 @@ Route::get('/auth/google/callback', function (Request $request) {
 
 
 Route::get('chart', [GoogleChartController::class, 'index']);
-
-
-
 Route::get('lang/{lang}', [LanguageController::class, 'change'])->name('change.lang');
