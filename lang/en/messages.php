@@ -5,7 +5,7 @@ return [
                                         and shop with confidence knowing that customer satisfaction is our top priority.
                                         Fast shipping, secure payments, and exceptional service are just a few clicks
                                         away.",
-    "heading" => "Welcome To Ishi Digtal E-commarce",
+    "heading" => "Welcome To Ishi Digtal Chicken Centre",
 
     "product-h1" => "Latest Products",
 

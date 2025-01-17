@@ -109,7 +109,6 @@
                             <td class="company-info">
                                 <strong>ISHI</strong><br>
                                 Address Line 1<br>
-                                Address Line 2<br>
                                 Email: info@ishicompany.com<br>
                                 Phone: +1 555-555-5555
                             </td>

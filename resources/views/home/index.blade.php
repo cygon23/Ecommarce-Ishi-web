@@ -7,7 +7,7 @@
 
 <body>
     <div class="hero_area">
-        <!-- header section strats -->
+        <!-- 1 header section strats -->
         @include('home.header')
         <!-- end header section -->
         <!-- slider section -->
